@@ -2,8 +2,10 @@ import { Card, Carousel, Col, Container, Form, Pagination, Row } from 'react-boo
 import React, { useCallback, useState } from 'react';
 
 import ImageViewer from "react-simple-image-viewer";
+import { RealEstateProperty } from '../interfaces/property';
+import { useNavigate } from 'react-router-dom';
 
-const properties = [
+const properties: RealEstateProperty[] = [
   { 
     id: 1, 
     name: 'Property 1', 
@@ -221,6 +223,8 @@ const properties = [
 
 
 const ViewProperties = () => {
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchLocality, setSearchLocality] = useState('');
 
@@ -257,8 +261,25 @@ const ViewProperties = () => {
     setIsViewerOpen(false);
   };
 
+  const showProperty = (propertyID: number) => {
+    console.log(`Show property with ID ${propertyID}`);
+    navigate(`/showProperty/${propertyID}`);
+  };
+
   return (
     <Container>
+      { isViewerOpen && 
+          <ImageViewer
+            src={imagesSrc}
+            currentIndex={currentImage}
+            onClose={closeImageViewer}
+            disableScroll={true}
+            backgroundStyle={{
+              backgroundColor: "rgba(0,0,0,0.9)"
+            }}
+            closeOnClickOutside={true}
+          />
+      }
       {/* <Row>
         <Col md={12}>
           <div className="header">
@@ -333,7 +354,7 @@ const ViewProperties = () => {
                     <Row>
                       <Col md={5}>
                           <div style={{ height: '100%' }}>
-                            <Carousel variant='dark' style={{ height: '100%' }}>
+                            <Carousel variant='dark' style={{ zIndex:0, height: '100%' }}>
                               {property.images.map((image, index) => (
                                 <Carousel.Item key={index} style={{ height: '100%', objectFit: 'cover', marginTop:'25%' }}>
                                   <img
@@ -355,7 +376,12 @@ const ViewProperties = () => {
                       </Col>
                       <Col md={7}>
                         <Card.Body>
-                          <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{property.name}</Card.Title>
+                          <Card.Title
+                            style={{ fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer' }}
+                            onClick={() => showProperty(property.id)}
+                          >
+                            {property.name}
+                          </Card.Title>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                             <div style={{ textAlign: 'left', width: '50%'}}>
                               <span style={{ fontWeight: 'bold' }}>Price</span> <br/> {property.price}
@@ -401,18 +427,6 @@ const ViewProperties = () => {
           </div>
         </Col>
       </Row>
-      { isViewerOpen && 
-          <ImageViewer
-            src={imagesSrc}
-            currentIndex={currentImage}
-            onClose={closeImageViewer}
-            disableScroll={false}
-            backgroundStyle={{
-              backgroundColor: "rgba(0,0,0,0.9)"
-            }}
-            closeOnClickOutside={true}
-          />
-      }
     </Container>
   );
 };
