@@ -1,216 +1,10 @@
 import { Card, Carousel, Col, Container, Form, Pagination, Row } from 'react-bootstrap';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import ImageViewer from "react-simple-image-viewer";
 import { RealEstateProperty } from '../interfaces/property';
+import { getProperties } from '../services/propertiesService';
 import { useNavigate } from 'react-router-dom';
-
-const properties: RealEstateProperty[] = [
-  { 
-    id: 1, 
-    name: 'Property 1', 
-    price: '$100,000', 
-    propertyType: 'Bungalow', 
-    locality: 'XYZ', 
-    state: 'California', 
-    area: '2000 sqft', 
-    bedrooms: '2bhk',
-    images: [
-      '/home-06.jpg',
-      '/logo.png',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  { 
-    id: 2, 
-    name: 'Property 2', 
-    price: '$200,000', 
-    propertyType: 'Condominium', 
-    locality: 'ABC', 
-    state: 'New York', 
-    area: '1500 sqft', 
-    bedrooms: '3bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  { 
-    id: 3, 
-    name: 'Property 3', 
-    price: '$300,000', 
-    propertyType: 'Farmhouse', 
-    locality: 'PQR', 
-    state: 'Texas', 
-    area: '3000 sqft', 
-    bedrooms: 'Studio',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 4,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 5,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 6,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 7,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 8,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 9,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 10,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 11,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-  {
-    id: 12,
-    name: 'Property 4',
-    price: '$400,000',
-    propertyType: 'Apartment',
-    locality: 'LMN',
-    state: 'Florida',
-    area: '4000 sqft',
-    bedrooms: '4bhk',
-    images: [
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-      '/home-06.jpg',
-    ]
-  },
-];
 
 // const Header = () => {
 //   return (
@@ -225,7 +19,11 @@ const properties: RealEstateProperty[] = [
 const ViewProperties = () => {
   const navigate = useNavigate();
 
+  const [properties, setProperties] = useState([] as RealEstateProperty[]);
+
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  
   const [searchLocality, setSearchLocality] = useState('');
 
   const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -234,16 +32,6 @@ const ViewProperties = () => {
   
   const propertiesPerPage = 10; // Update properties per page to 10
 
-  // Logic to calculate the properties to display on the current page
-  const indexOfLastProperty = currentPage * propertiesPerPage;
-  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const filteredProperties = properties.filter(property =>
-    property.locality.toLowerCase().includes(searchLocality.toLowerCase())
-  );
-  const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
-
-  // Logic to handle pagination
-  const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,6 +53,14 @@ const ViewProperties = () => {
     console.log(`Show property with ID ${propertyID}`);
     navigate(`/showProperty/${propertyID}`);
   };
+
+  // Get the properties from the express server
+  useEffect(() => {
+    getProperties(currentPage).then((response) => {
+      setProperties(response.data);
+      setTotalPages(Math.ceil(response.meta.count / propertiesPerPage));
+    })
+  }, [currentPage]);
 
   return (
     <Container>
@@ -348,7 +144,7 @@ const ViewProperties = () => {
         <Col md={9}>
           <div className="property-list">
             <Row>
-              {currentProperties.map((property) => (
+              {properties.map((property) => (
                 <Col key={property.id} md={6} className="mb-4">
                   <Card>
                     <Row>
