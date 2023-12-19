@@ -77,7 +77,7 @@ const ViewProperties = () => {
     })
   }, [currentPage]);
 
-  let [loading, setLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
   
   return (
     <div>
