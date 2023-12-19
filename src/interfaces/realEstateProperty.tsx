@@ -9,6 +9,7 @@ export interface RealEstateProperty {
   city: string;
   state: string;
   country: string;
+  zip: string;
   area: number;
   areaUnit: string;
   bedrooms: number;

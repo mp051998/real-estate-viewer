@@ -15,6 +15,8 @@ const ViewProperties = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [showingCount, setShowingCount] = useState(0);
   
   const [searchLocality, setSearchLocality] = useState('');
 
@@ -51,6 +53,8 @@ const ViewProperties = () => {
     getProperties(currentPage, propertiesPerPage).then((response) => {
       setProperties(response.data);
       setTotalPages(Math.ceil(response.meta.count / propertiesPerPage));
+      setTotalCount(response.meta.count);
+      setShowingCount(Math.min(propertiesPerPage, response.data.length))
     })
   }, [currentPage]);
   
@@ -149,6 +153,14 @@ const ViewProperties = () => {
       </Row>
 
       <br/><br/>
+
+      <Row>
+        <Col md={12}>
+          <i><h3 style={{ textAlign: 'left' }}>Showing {(currentPage-1) * propertiesPerPage + 1} - {(currentPage-1) * propertiesPerPage + showingCount} of {totalCount} Properties...</h3></i>
+        </Col>
+      </Row>
+
+      <br/>
 
       <Row>
         <Col md={12}>
