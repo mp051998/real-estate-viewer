@@ -1,7 +1,7 @@
 import { getRequest } from "../utils/requests";
 
-export function getProperties (page: number, size: number, states: string[]) {
-  const route = `/real-estate-properties?page=${page}&size=${size}&states=${states.join(',')}`;
+export function getProperties (states: string[], propertyType: string, page: number, size: number) {
+  const route = `/real-estate-properties?states=${states.join(',')}&propertyType=${propertyType}&page=${page}&size=${size}`;
   return getRequest(route);
 }
 

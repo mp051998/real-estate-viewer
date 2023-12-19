@@ -66,6 +66,14 @@ const ViewProperties = () => {
     setCurrentPage(1); // Reset current page when search query changes
   }
   
+  // Property type related
+  const [selectedPropertyType, setSelectedPropertyType] = useState<string>("" as string);
+  
+  const handleOnPropertyTypeSelect = (event: any) => {
+    setSelectedPropertyType(event.target.value);
+    setCurrentPage(1); // Reset current page when search query changes
+  }
+  
   const propertiesPerPage = 8; // Update properties per page to 8
 
   const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -89,7 +97,7 @@ const ViewProperties = () => {
   // Get the properties from the express server
   useEffect(() => {
     setLoading(true);
-    getProperties(currentPage, propertiesPerPage, selectedStates).then((response) => {
+    getProperties(selectedStates, selectedPropertyType, currentPage, propertiesPerPage).then((response) => {
       setProperties(response.data);
       setTotalPages(Math.ceil(response.meta.count / propertiesPerPage));
       setTotalCount(response.meta.count);
@@ -100,7 +108,7 @@ const ViewProperties = () => {
       setLoading(false);
       toast.error(err.message);
     })
-  }, [currentPage, selectedStates]);
+  }, [currentPage, selectedStates, selectedPropertyType]);
 
   // Get the config from the express server
   useEffect(() => {
@@ -235,11 +243,13 @@ const ViewProperties = () => {
                     as="select"
                     className="form-select"
                     size="sm"
+                    onChange={handleOnPropertyTypeSelect}
+                    value={selectedPropertyType}
                   >
-                    <option hidden={true}>Property Type</option>
+                    <option value="">All Property Types</option>
                     {
                     propertyTypes.map((propertyType) => (
-                      <option key={propertyType.id} value={propertyType.name}>{capitalizeAllWords(propertyType.name)}</option>
+                      <option value={propertyType.id}>{capitalizeAllWords(propertyType.name)}</option>
                     ))}
                   </Form.Control>
                 </Form.Group>
