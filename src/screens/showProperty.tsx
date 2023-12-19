@@ -1,7 +1,7 @@
 import { Button, Card, Carousel, Col, Container, Row } from 'react-bootstrap';
 import { CSSProperties, useEffect, useState } from 'react';
 import { FaArrowLeft, FaBath, FaBed, FaRulerCombined } from 'react-icons/fa';
-import { capitalizeFirstLetter, formatNumberWithCommas } from '../utils/stringTransformers';
+import { capitalizeAllWords, capitalizeFirstLetter, formatNumberWithCommas } from '../utils/stringTransformers';
 
 import { ClipLoader } from 'react-spinners';
 import DateTimePicker from 'react-datetime-picker'
@@ -103,7 +103,7 @@ const ShowProperty = () => {
         </div>
       }
       {
-        !loading && 
+        !loading && propertyData && 
           <Container fluid={true}>
             <Row style={{padding:'0.5rem', marginBottom:'0.5rem', position: 'sticky', top: 0, zIndex:1, backgroundColor: '#eeeeee', }}>
               <Col md={1} style={{textAlign:'left', 'padding': '1rem'}}>
@@ -222,7 +222,7 @@ const ShowProperty = () => {
                           <Row>
                             <Col md={6}>
                               <span style={{ fontSize: '12px', color:'grey' }}>REGION</span><br/>
-                              <span style={{ fontSize: '15px' }}>{`${propertyData.city}, ${propertyData.state}, ${propertyData.country}`}</span>
+                              <span style={{ fontSize: '15px' }}>{capitalizeAllWords(`${propertyData.city}, ${propertyData.state}, `) + propertyData?.country?.toUpperCase()}</span>
                             </Col>
                             <Col md={6}>
                               <span style={{ fontSize: '12px', color:'grey' }}>ZIPCODE</span><br/>
