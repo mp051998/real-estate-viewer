@@ -54,7 +54,7 @@ const ViewProperties = () => {
     console.log("Selected states: ", selectedStates);
     console.log(item);
     if (selectedStates.length < 5) {
-      setSelectedStates([...selectedStates, item.name]);
+      setSelectedStates([...selectedStates, item.id]);
     }
     setCurrentPage(1); // Reset current page when search query changes
   };
@@ -106,8 +106,8 @@ const ViewProperties = () => {
   useEffect(() => {
     setLoading(true);
     getConfigByID('real-estate-viewer').then((response) => {
-      console.log("Real estate viewer config", response.data);
-      setStates(response.data?.data?.states || []);
+      const states = response.data?.data?.states?.map((state: any) => ({ id: state.id, name: capitalizeAllWords(state.name) })) || [];
+      setStates(states);
       console.log(response.data?.data?.propertyTypes);
       setPropertyTypes(response.data?.data?.propertyTypes || []);
       setLoading(false);
@@ -162,11 +162,25 @@ const ViewProperties = () => {
             <Row style={{ display: 'inline-flex', backgroundColor: 'lightBlue', width: '102%' }}>
               <Col md={1}/>
               <Col md={6}>
-                <div className="mt-4 mb-2" style={{ pointerEvents: selectedStates.length >= 5 ? 'none' : 'auto', opacity: selectedStates.length >= 5 ? 0.5 : 1 }}>
+                <div 
+                  className="mt-4 mb-2" 
+                  style={{ 
+                    pointerEvents: selectedStates.length >= 5 ? 'none' : 'auto', 
+                    opacity: selectedStates.length >= 5 ? 0.5 : 1,
+                    zIndex: 9999999
+                  }}
+                >
                   <ReactSearchAutocomplete
+                    placeholder="Search by State"
                     items={states}
                     onSelect={handleOnStateSelect}
                     autoFocus
+                    styling={{
+                      borderRadius: '25px',
+                      boxShadow: 'none',
+                      height: '40px',
+                      zIndex: 9999999
+                    }}
                   />
                 </div>
                 {
