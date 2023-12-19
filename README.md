@@ -43,3 +43,12 @@ Before running the app, make sure to set up a `.env` file in the project root di
 ```
 REACT_APP_BACKEND_URL=<backend_server_url> # This is the url of the backend server
 ```
+
+## Screenshots
+
+![image](https://github.com/mp051998/real-estate-viewer/assets/25613636/6e5df582-5203-4aab-bd5d-083623f6ce4a)
+![image](https://github.com/mp051998/real-estate-viewer/assets/25613636/d439db17-f221-4b1a-a9d0-b8319f58bdb1)
+![image](https://github.com/mp051998/real-estate-viewer/assets/25613636/cd94e96f-e9e6-4cfc-bb1f-64ddad207bc6)
+![image](https://github.com/mp051998/real-estate-viewer/assets/25613636/c4c4b27d-7a4c-4bfd-9f10-dc85513055c4)
+
+
