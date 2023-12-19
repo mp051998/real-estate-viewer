@@ -162,7 +162,8 @@ const ViewProperties = () => {
                   onClose={closeImageViewer}
                   disableScroll={true}
                   backgroundStyle={{
-                    backgroundColor: "rgba(0,0,0,0.9)"
+                    backgroundColor: "rgba(0,0,0,0.9)",
+                    zIndex: 99999999999
                   }}
                   closeOnClickOutside={true}
                 />
