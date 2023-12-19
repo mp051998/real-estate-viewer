@@ -1,6 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
